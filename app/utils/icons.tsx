@@ -15,7 +15,7 @@ export const snow = <Snowflake size={30} />
 export const clearSky = <CloudSun size={30} />
 export const cloudy = <Cloudy size={30} />
 export const navigation = <Navigation size={15} />
-export const thermo = <ThermometerSun size={15} />
+export const thermosun = <ThermometerSun size={15} />
 export const sunset = <Sunset size={15} />
 export const wind = <Wind size={15} />
 export const gauge = <Gauge size={15} />

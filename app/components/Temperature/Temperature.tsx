@@ -3,6 +3,7 @@
 import { useGlobalContext } from '@/app/context/globalContext'
 import { clearSky, cloudy, drizzleIcon, navigation, rain, snow, thunderstorm } from '@/app/utils/icons';
 import { kelvinToCelcius } from '@/app/utils/misc';
+import { Skeleton } from '@/components/ui/skeleton';
 import moment from 'moment';
 import React, { useEffect } from 'react'
 
@@ -10,10 +11,10 @@ const Temperature = () => {
     const { forecast } = useGlobalContext();
     const { main, timezone, name, weather } = forecast;
 
-    console.log(timezone);
+    // console.log(timezone);
 
     if (!forecast || !weather)
-        return <div>Loading...</div>
+        return <Skeleton className='pt-6 pb-5 px-4 h-[22rem]'/>
 
     const temp = kelvinToCelcius(main?.temp);
     const minTemp = kelvinToCelcius(main?.temp_min);
