@@ -43,7 +43,7 @@ const Humidity = () => {
         </h2>
 
         <p className='pt-4 text-2xl'>
-            {humidity}
+            {humidity}%
         </p>
       </div>
 
