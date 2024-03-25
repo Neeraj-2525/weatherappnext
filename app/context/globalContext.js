@@ -12,6 +12,9 @@ export const GlobalContextProvider = ({children}) =>{
     // const [state, setState] = useState("hello");
     const [forecast, setForecast] = useState({});
     const [airQuality, setAirQuality] = useState({});
+    const [fiveDayData, setFiveDayData] = useState({});
+    const [latLon, setLatLon] = useState([]);
+    const [uvData, setUvData] = useState({});
 
 
     const fetchForecast = async (lat, lon) => {
@@ -37,15 +40,60 @@ export const GlobalContextProvider = ({children}) =>{
         }
       };
 
+    const fetchFiveDayData = async () => {
+      try {
+        const res = await axios.get(`/api/fiveDayForecast`);
+  
+
+        setFiveDayData(res.data);
+        // console.log(res.data);
+      } catch (error) {
+        console.log("Error fetching daily data: ", error.message);
+      }
+    }
+
+    const fetchLatLon = async () =>{
+      try {
+        const res = await axios.get(`api/latLonConvert`);
+  
+
+        setLatLon(res.data);
+        // console.log(res.data);
+      } catch (error) {
+        console.log("Error fetching lat and lon: ", error.message);
+      }
+    }
+
+    const fetchUvData = async () =>{
+      try {
+        const res = await axios.get(`api/uvIndex`);
+  
+
+        setUvData(res.data);
+        // console.log(res.data);
+      } catch (error) {
+        console.log("Error fetching lat and lon: ", error.message);
+      }
+    }
+
     useEffect(()=>{
         fetchForecast();
         fetchAirQual();
-    },[]);
+        fetchFiveDayData();
+        fetchLatLon();
+        fetchUvData();
+      },[]);
 
+      // console.log(fiveDayData);
+
+      
     return (
         <GlobalContext.Provider value={{
             forecast,
             airQuality,
+            fiveDayData,
+            latLon,
+            uvData,
         }}>
             <GlobalContextUpdate.Provider value="heyYo">
                 {children}

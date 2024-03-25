@@ -14,11 +14,13 @@ const Temperature = () => {
     // console.log(timezone);
 
     if (!forecast || !weather)
-        return <Skeleton className='pt-6 pb-5 px-4 h-[22rem]'/>
+        return <Skeleton className='pt-6 pb-5 px-4 h-[25rem]'/>
 
     const temp = kelvinToCelcius(main?.temp);
     const minTemp = kelvinToCelcius(main?.temp_min);
     const maxTemp = kelvinToCelcius(main?.temp_max);
+
+    // console.log(main);
 
 
     //state
@@ -52,7 +54,7 @@ const Temperature = () => {
         const interval = setInterval(()=>{
             const localMoment = moment().utcOffset(timezone/60);
             // set custom format 12 hour format
-            const formatedTime = localMoment.format("HH:mm a");
+            const formatedTime = localMoment.format("hh:mm A");
             // day of the week
             const day = localMoment.format("dddd");
 
@@ -72,7 +74,7 @@ const Temperature = () => {
                 <span>{navigation}</span>
             </p>
 
-            <p className='py-10 text-8xl font-bold self-center'>{temp}°</p>
+            <p className='py-[3.6rem] text-8xl font-bold self-center'>{temp}°</p>
             <div>
                 <div>
                     <span>{getIcon()}</span>
