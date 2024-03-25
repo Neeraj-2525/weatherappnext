@@ -87,3 +87,11 @@
     rgba(178, 34, 34, 1) 100%
   );
 }
+
+.temperature-progress{
+  background: linear-gradient(
+    to right,
+    rgb(65, 201, 255) ,
+    rgb(255, 182, 25)
+  );
+}
