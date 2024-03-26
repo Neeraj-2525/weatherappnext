@@ -92,6 +92,45 @@
   background: linear-gradient(
     to right,
     rgb(65, 201, 255) ,
-    rgb(255, 182, 25)
+    rgb(255, 232, 99),
+    rgba(235, 77, 96, 1)
   );
+}
+
+
+@media screen and (max-width: 581px) {
+  .btn-group{
+    position: fixed;
+    bottom: 2%;
+    right: 1rem;
+    z-index: 1000;
+    box-shadow: 2px 3px 0.5rem rgba(0,0,0,0.1);
+  }
+
+  .search-container{
+    width: 100%;
+  }
+
+  .search-btn{
+    width: 100%;
+  }
+
+  .search-btn button{
+    width: 100%;
+  }
+
+  .source-code{
+    order: -1;
+  }
+}
+
+@media  screen and (max-width: 1010px) {
+  .mapbox-container{
+    flex-direction: column;
+  }
+
+  .mapbox-container > div:first-child{
+    height: 24rem;
+    flex: initial;
+  }
 }

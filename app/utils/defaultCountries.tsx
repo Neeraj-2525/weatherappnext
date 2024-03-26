@@ -9,21 +9,28 @@ const defaultStates = [
     {
         name: "London",
         country: "Us",
-        state: "",
+        state: "Hey ho",
         lat: 28.64,
         lon: 77.21,
     },
     {
         name: "London",
         country: "Us",
-        state: "",
+        state: "BlaBla",
         lat: 28.64,
         lon: 77.21,
     },
     {
+        "name": "New York County",
+        "lat": 40.7127281,
+        "lon": -74.0060152,
+        "country": "US",
+        "state": "New York"
+    },
+    {
         name: "London",
         country: "Us",
-        state: "",
+        state: "london",
         lat: 28.64,
         lon: 77.21,
     },

@@ -2,6 +2,8 @@
 
 import axios from "axios";
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import defaultStates from "../utils/defaultCountries";
+import {debounce} from "lodash"
 
 const GlobalContext = createContext();
 const GlobalContextUpdate = createContext();
@@ -13,13 +15,15 @@ export const GlobalContextProvider = ({children}) =>{
     const [forecast, setForecast] = useState({});
     const [airQuality, setAirQuality] = useState({});
     const [fiveDayData, setFiveDayData] = useState({});
-    const [latLon, setLatLon] = useState([]);
+    const [latLonList, setLatLonList] = useState(defaultStates);
     const [uvData, setUvData] = useState({});
+    const [searchInputValue, setSearchInputValue] = useState("");
+    const [activeCityCoords, setActiveCityCoords] = useState([28.5744778, 77.1963144]);
 
 
     const fetchForecast = async (lat, lon) => {
         try {
-          const res = await axios.get(`api/weather`);
+          const res = await axios.get(`api/weather?lat=${lat}&lon=${lon}`);
     
           setForecast(res.data);
         //   console.log(res.data);
@@ -29,9 +33,9 @@ export const GlobalContextProvider = ({children}) =>{
       };
 
 
-    const fetchAirQual = async () => {
+    const fetchAirQual = async (lat, lon) => {
         try {
-          const res = await axios.get(`api/pollution`);
+          const res = await axios.get(`api/pollution?lat=${lat}&lon=${lon}`);
     
           setAirQuality(res.data);
         //   console.log(res.data);
@@ -40,9 +44,9 @@ export const GlobalContextProvider = ({children}) =>{
         }
       };
 
-    const fetchFiveDayData = async () => {
+    const fetchFiveDayData = async (lat, lon) => {
       try {
-        const res = await axios.get(`/api/fiveDayForecast`);
+        const res = await axios.get(`/api/fiveDayForecast?lat=${lat}&lon=${lon}`);
   
 
         setFiveDayData(res.data);
@@ -51,38 +55,61 @@ export const GlobalContextProvider = ({children}) =>{
         console.log("Error fetching daily data: ", error.message);
       }
     }
+    
 
-    const fetchLatLon = async () =>{
+    const fetchLatLonList = async (search) =>{
       try {
-        const res = await axios.get(`api/latLonConvert`);
-  
-
-        setLatLon(res.data);
+        const res = await axios.get(`api/latLonConvert?search=${search}`);
+        
+        setLatLonList(res.data);
         // console.log(res.data);
       } catch (error) {
         console.log("Error fetching lat and lon: ", error.message);
       }
     }
 
-    const fetchUvData = async () =>{
+    const fetchUvData = async (lat, lon) =>{
       try {
-        const res = await axios.get(`api/uvIndex`);
+        const res = await axios.get(`api/uvIndex?lat=${lat}&lon=${lon}`);
   
 
         setUvData(res.data);
         // console.log(res.data);
       } catch (error) {
-        console.log("Error fetching lat and lon: ", error.message);
+        console.log("Error fetching uv data: ", error.message);
       }
     }
 
+    const handleInput = (e) => {
+      setSearchInputValue(e.target.value);
+  
+      if (e.target.value === "") {
+        setLatLonList(defaultStates);
+      }
+    };
+
+    // debounce feature
     useEffect(()=>{
-        fetchForecast();
-        fetchAirQual();
-        fetchFiveDayData();
-        fetchLatLon();
-        fetchUvData();
-      },[]);
+      const debouncedFetch = debounce((search)=>{
+        fetchLatLonList(search);
+      }, 500);
+
+      if(searchInputValue){
+        debouncedFetch(searchInputValue);
+      }
+      
+      //cleanup
+      return ()=> debouncedFetch.cancel();
+    },[searchInputValue])
+
+
+    useEffect(()=>{
+        fetchForecast(activeCityCoords[0], activeCityCoords[1]);
+        fetchAirQual(activeCityCoords[0], activeCityCoords[1]);
+        fetchFiveDayData(activeCityCoords[0], activeCityCoords[1]);
+        fetchUvData(activeCityCoords[0], activeCityCoords[1]);
+        fetchLatLonList(searchInputValue);
+      },[activeCityCoords]);
 
       // console.log(fiveDayData);
 
@@ -92,10 +119,13 @@ export const GlobalContextProvider = ({children}) =>{
             forecast,
             airQuality,
             fiveDayData,
-            latLon,
+            latLonList,
             uvData,
+            searchInputValue,
+            handleInput,
+            setActiveCityCoords,
         }}>
-            <GlobalContextUpdate.Provider value="heyYo">
+            <GlobalContextUpdate.Provider value={{setActiveCityCoords, handleInput,}}>
                 {children}
             </GlobalContextUpdate.Provider>
         </GlobalContext.Provider>

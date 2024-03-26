@@ -11,7 +11,6 @@ import { useGlobalContext } from '../context/globalContext'
 
 const Navbar = () => {
   const router = useRouter();
-  const {state} = useGlobalContext();
 
 
 
@@ -25,7 +24,7 @@ const Navbar = () => {
           <ThemeDropdown />
 
           <Button className='source-code flex items-center gap-2' onClick={() => {
-            router.push("https//github.com");}}>
+            router.push("/");}}>
             {github} Source Code
           </Button>
         </div>

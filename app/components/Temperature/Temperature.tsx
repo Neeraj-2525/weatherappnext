@@ -2,23 +2,30 @@
 
 import { useGlobalContext } from '@/app/context/globalContext'
 import { clearSky, cloudy, drizzleIcon, navigation, rain, snow, thunderstorm } from '@/app/utils/icons';
-import { kelvinToCelcius } from '@/app/utils/misc';
+import { kelvinToCelcius, unixToWeekday } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import moment from 'moment';
 import React, { useEffect } from 'react'
 
 const Temperature = () => {
-    const { forecast } = useGlobalContext();
+    const { forecast, fiveDayData } = useGlobalContext();
+    const { city, list } = fiveDayData;
     const { main, timezone, name, weather } = forecast;
+
+    const dailyData = list;
+    // console.log(city, dailyData?.[0]);
 
     // console.log(timezone);
 
-    if (!forecast || !weather)
+    if (!forecast || !weather || !dailyData)
         return <Skeleton className='pt-6 pb-5 px-4 h-[25rem]'/>
+
+    const {main: dailyDataMain} = dailyData?.[0];
+    console.log(main?.temp_min, dailyDataMain?.temp_min);
 
     const temp = kelvinToCelcius(main?.temp);
     const minTemp = kelvinToCelcius(main?.temp_min);
-    const maxTemp = kelvinToCelcius(main?.temp_max);
+    const maxTemp = kelvinToCelcius(dailyDataMain?.temp_max);
 
     // console.log(main);
 

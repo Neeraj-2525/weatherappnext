@@ -19,11 +19,11 @@ export const airQualityIndexText = [
     },
     {
         rating: 40,
-        description: "Poor",
+        description: "Very unhealthy",
     },
     {
         rating: 50,
-        description: "Very Poor",
+        description: "Hazardous",
     },
 ]
 

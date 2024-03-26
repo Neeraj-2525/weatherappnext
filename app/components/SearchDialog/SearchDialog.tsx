@@ -8,12 +8,31 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog"
 import { commandIcon } from '@/app/utils/icons'
-import { Command, CommandInput } from '@/components/ui/command'
+import { Command, CommandInput, CommandList } from '@/components/ui/command'
+import { useGlobalContext, useGlobalContextUpdate } from '@/app/context/globalContext'
 
 
 
 
 const SearchDialog = () => {
+    const { latLonList, searchInputValue} = useGlobalContext();
+    const {setActiveCityCoords, handleInput} = useGlobalContextUpdate();
+    const [hoveredIndex, setHoveredIndex] = React.useState<number>(0);
+    const [query, setquery] = React.useState<string>("");
+
+
+
+    const getClickedCoords = (lat:number, lon:number)=>{
+        setActiveCityCoords([lat, lon]);
+    }
+
+    const handleFuckinInput = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        const val = e.target.value;
+        setquery(val);
+    }
+    console.log(query);
+    
+
     return (
         <div className='search-btn flex items-center'>
             <Dialog>
@@ -30,12 +49,39 @@ const SearchDialog = () => {
 
                 <DialogContent className='p-0'>
                     <Command className='rounded-lg border shadow-md'>
-                        <CommandInput placeholder='Type a command or search...'/>
-                        <ul className="px-3 pb-2 ">
+                        <CommandInput
+                            value={searchInputValue}
+                            onChangeCapture={handleInput}
+                            placeholder="Type a command or search..."
+                        />
+                        <CommandList>
+                            <ul className="px-3 pb-2 ">
                             <p className="p-2 text-sm text-muted-foreground">
                                 Suggestions
                             </p>
+                            {latLonList?.length === 0 || (!latLonList && <p>No Results</p>)}
+
+                            {latLonList &&
+                                latLonList.map((item: { name: string; country: string; state: string; lat: number; lon: number; }, index: number) => {
+                                    const { country, state, name } = item;
+                                    return (
+                                        <li
+                                            key={index}
+                                            onMouseEnter={() => setHoveredIndex(index)}
+                                            className={`py-3 px-2 text-sm rounded-sm cursor-default ${hoveredIndex === index ? 'bg-accent' : ''}`}
+                                            onClick={()=>{
+                                                getClickedCoords(item.lat, item.lon);
+                                            }}
+                                        >
+                                            <p className="text">
+                                                {name}, {state && (state + ", ")}, {country}
+                                            </p>
+                                        </li>
+                                    )
+                                })}
                         </ul>
+                        </CommandList>
+                        
                     </Command>
                 </DialogContent>
             </Dialog>
