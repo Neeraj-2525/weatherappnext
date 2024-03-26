@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 import defaultStates from "../utils/defaultCountries";
 import {debounce} from "lodash"
 
+
 const GlobalContext = createContext();
 const GlobalContextUpdate = createContext();
 
@@ -87,6 +88,7 @@ export const GlobalContextProvider = ({children}) =>{
         setLatLonList(defaultStates);
       }
     };
+    
 
     // debounce feature
     useEffect(()=>{

@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import moment from 'moment';
 import React, { useEffect } from 'react'
 
+
 const Temperature = () => {
     const { forecast, fiveDayData } = useGlobalContext();
     const { city, list } = fiveDayData;
@@ -17,8 +18,10 @@ const Temperature = () => {
 
     // console.log(timezone);
 
-    if (!forecast || !weather || !dailyData)
-        return <Skeleton className='pt-6 pb-5 px-4 h-[25rem]'/>
+    if (!forecast || !weather || !fiveDayData)
+        return (
+        <Skeleton className='pt-6 pb-5 px-4 h-[25rem]'/>
+        )
 
     const {main: dailyDataMain} = dailyData?.[0];
     console.log(main?.temp_min, dailyDataMain?.temp_min);
@@ -71,7 +74,7 @@ const Temperature = () => {
     },[])
 
     return (
-        <div className='pt-6 pb-5 px-4 border rounded-lg flex flex-col justify-between dark:bg-dark-grey shadow-sm dark:shadow-none'>
+        <div className='temperature-wrapper pt-6 pb-5 px-4 border rounded-lg flex flex-col justify-between dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <p className="flex justify-between items-center">
                 <span className="font-medium">{currentDay}</span>
                 <span className="font-medium">{localTime}</span>

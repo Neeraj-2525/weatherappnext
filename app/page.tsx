@@ -1,4 +1,6 @@
-// import Image from "next/image";
+"use client"
+
+
 import AirPollution from "./components/AirPollution/AirPollution";
 import DailyFocus from "./components/DailyForecast/DailyForecast";
 import FeelsLike from "./components/FeelsLike/FeelsLike";
@@ -13,9 +15,17 @@ import Temperature from "./components/Temperature/Temperature";
 import UvIndex from "./components/UvIndex/UvIndex";
 import Visibility from "./components/Visibility/Visibility";
 import Wind from "./components/Wind/Wind";
+import { useGlobalContextUpdate } from "./context/globalContext";
 import defaultStates from "./utils/defaultCountries";
 
-export default function Home() {
+export default function Home() { 
+  const { setActiveCityCoords, handleInput } = useGlobalContextUpdate();
+
+  const getClickedCoords = (lat: number, lon: number) => {
+    setActiveCityCoords([lat, lon]);
+}
+
+   
   return (
     <main className="mx-[1rem] lg:mx-[2rem] xl:mx[6rem] 2xl:mx[16rem] m-auto">
       <Navbar />
@@ -46,9 +56,9 @@ export default function Home() {
                 Top Large Cities
               </h2>
               <div className="flex flex-col gap-4">
-                {defaultStates.map((state, index) => {
+                {defaultStates.slice(1, 5).map((state, index) => {
                   return (
-                  <div key={index} className="border rounded-lg cursor-pointer dark:bg-dark-grey shadow-sm dark:shadow-none">
+                  <div key={index} onClick={()=>{getClickedCoords(state.lat, state.lon)}} className="border rounded-lg cursor-pointer dark:hover:bg-accent dark:bg-dark-grey shadow-sm dark:shadow-none">
                     <p className="px-6 py-4">{state.name}</p>
                   </div>
                 )})}
@@ -58,7 +68,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="flex justify-center py-4 pb-8">
+      <footer className="flex justify-center py-5 pb-6">
         <p className="footer-text text-sm flex items-center gap-1">
           Made by <strong className="text-blue-300">Neeraj</strong>
         </p>

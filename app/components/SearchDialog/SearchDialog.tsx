@@ -15,34 +15,40 @@ import { useGlobalContext, useGlobalContextUpdate } from '@/app/context/globalCo
 
 
 const SearchDialog = () => {
-    const { latLonList, searchInputValue} = useGlobalContext();
-    const {setActiveCityCoords, handleInput} = useGlobalContextUpdate();
+    const { latLonList, searchInputValue } = useGlobalContext();
+    const { setActiveCityCoords, handleInput } = useGlobalContextUpdate();
     const [hoveredIndex, setHoveredIndex] = React.useState<number>(0);
-    const [query, setquery] = React.useState<string>("");
+    const [dialogOpen, setDialogOpen] = React.useState(false)
+
+    React.useEffect(() => {
+        const down = (e: KeyboardEvent) => {
+            if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault()
+                setDialogOpen((dialogOpen) => !dialogOpen)
+            }
+        }
+
+        document.addEventListener("keydown", down)
+        return () => document.removeEventListener("keydown", down)
+    }, [])
 
 
 
-    const getClickedCoords = (lat:number, lon:number)=>{
+    const getClickedCoords = (lat: number, lon: number) => {
         setActiveCityCoords([lat, lon]);
     }
 
-    const handleFuckinInput = (e:React.ChangeEvent<HTMLInputElement>)=>{
-        const val = e.target.value;
-        setquery(val);
-    }
-    console.log(query);
-    
 
     return (
         <div className='search-btn flex items-center'>
-            <Dialog>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen} >
                 <DialogTrigger asChild>
                     <Button variant="outline"
                         className='border inline-flex items-center justify-center text-sm font-medium hover:dark:bg[#131313] hover:bg-slate-100 ease-in-out duration-200'>
                         <p className="text-sm text-muted-foreground">Search Here...</p>
                         <div className="command dark:bg-[#262626] bg-slate-200 py-[2px] pl-[5px] pr-[7px] rounded-sm ml-[10rem] flex items-center gap-2">
                             {commandIcon}
-                            <span className="text-[9px]">F</span>
+                            <span className="text-[9px]">J</span>
                         </div>
                     </Button>
                 </DialogTrigger>
@@ -56,32 +62,31 @@ const SearchDialog = () => {
                         />
                         <CommandList>
                             <ul className="px-3 pb-2 ">
-                            <p className="p-2 text-sm text-muted-foreground">
-                                Suggestions
-                            </p>
-                            {latLonList?.length === 0 || (!latLonList && <p>No Results</p>)}
+                                <p className="p-2 text-sm text-muted-foreground">
+                                    Suggestions
+                                </p>
+                                {latLonList?.length === 0 || (!latLonList && <p>No Results</p>)}
 
-                            {latLonList &&
-                                latLonList.map((item: { name: string; country: string; state: string; lat: number; lon: number; }, index: number) => {
-                                    const { country, state, name } = item;
-                                    return (
-                                        <li
-                                            key={index}
-                                            onMouseEnter={() => setHoveredIndex(index)}
-                                            className={`py-3 px-2 text-sm rounded-sm cursor-default ${hoveredIndex === index ? 'bg-accent' : ''}`}
-                                            onClick={()=>{
-                                                getClickedCoords(item.lat, item.lon);
-                                            }}
-                                        >
-                                            <p className="text">
-                                                {name}, {state && (state + ", ")}, {country}
-                                            </p>
-                                        </li>
-                                    )
-                                })}
-                        </ul>
+                                {latLonList &&
+                                    latLonList.map((item: { name: string; country: string; state: string; lat: number; lon: number; }, index: number) => {
+                                        const { country, state, name } = item;
+                                        return (
+                                            <li
+                                                key={index}
+                                                onMouseEnter={() => setHoveredIndex(index)}
+                                                className={`py-3 px-2 text-sm rounded-sm cursor-default ${hoveredIndex === index ? 'bg-accent' : ''}`}
+                                                onClick={() => {
+                                                    getClickedCoords(item.lat, item.lon);
+                                                }}
+                                            >
+                                                <p className="text">
+                                                    {name}, {state && (state + ", ")} {country}
+                                                </p>
+                                            </li>
+                                        )
+                                    })}
+                            </ul>
                         </CommandList>
-                        
                     </Command>
                 </DialogContent>
             </Dialog>
