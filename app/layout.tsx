@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <link rel="shortcut icon" href="/cloudSun.png" />
+      <link rel="icon" href="/cloudSun.png" />
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem >
           {children}

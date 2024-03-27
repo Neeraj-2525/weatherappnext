@@ -15,17 +15,11 @@ import TopCities from "./components/TopCities/TopCities";
 import UvIndex from "./components/UvIndex/UvIndex";
 import Visibility from "./components/Visibility/Visibility";
 import Wind from "./components/Wind/Wind";
+import { useGlobalContext } from "./context/globalContext";
 // import { useGlobalContext, useGlobalContextUpdate } from "./context/globalContext";
 // import defaultStates from "./utils/defaultCountries";
 
 export default function Home() {
-  // const { setActiveCityCoords, handleInput } = useGlobalContextUpdate();
-  
-  // const getClickedCoords = (lat: number, lon: number) => {
-  //   setActiveCityCoords([lat, lon]);
-  // }
-  
-
   return (
     <>
       <main className="mx-[1rem] lg:mx-[2rem] xl:mx-[3rem] 2xl:mx-[16rem] m-auto">
@@ -52,7 +46,7 @@ export default function Home() {
             </div>
             <div className="mapbox-container mt-4 flex gap-4">
               <Mapbox />
-              <TopCities/>
+              <TopCities />
             </div>
           </div>
         </div>
@@ -62,8 +56,19 @@ export default function Home() {
             Made by <strong className="text-blue-300">Neeraj</strong>
           </p>
         </footer>
-
       </main>
+
+      {/* <div className="test">testing title</div> */}
     </>
   );
 }
+
+
+
+
+// export async function generateMetadata({params}) {
+//   return {
+//     title: 'test title',
+//   }
+// }
+

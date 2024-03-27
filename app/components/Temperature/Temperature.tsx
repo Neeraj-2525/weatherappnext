@@ -73,6 +73,7 @@ const Temperature = () => {
 
     return (
         <div className='temperature-wrapper pt-6 pb-5 px-4 border rounded-lg flex flex-col justify-between dark:bg-dark-grey shadow-sm dark:shadow-none'>
+            <title>Weather: {description}</title>
             <p className="flex justify-between items-center">
                 <span className="font-medium">{currentDay}</span>
                 <span className="font-medium">{localTime}</span>
