@@ -20,10 +20,10 @@ const Temperature = () => {
 
     if (!forecast || !weather || !fiveDayData)
         return (
-        <Skeleton className='pt-6 pb-5 px-4 h-[25rem]'/>
+            <Skeleton className='pt-6 pb-5 px-4 h-[25rem]' />
         )
 
-    const {main: dailyDataMain} = dailyData?.[0];
+    const { main: dailyDataMain } = dailyData?.[0];
     const temp = kelvinToCelcius(main?.temp);
     const minTemp = kelvinToCelcius(main?.temp_min);
     const maxTemp = kelvinToCelcius(dailyDataMain?.temp_max);
@@ -57,10 +57,10 @@ const Temperature = () => {
     }
 
     // live time update
-    useEffect(()=>{
+    useEffect(() => {
         // update time every second
-        const interval = setInterval(()=>{
-            const localMoment = moment().utcOffset(timezone/60);
+        const interval = setInterval(() => {
+            const localMoment = moment().utcOffset(timezone / 60);
             // set custom format 12 hour format
             const formatedTime = localMoment.format("hh:mm A");
             // day of the week
@@ -68,12 +68,14 @@ const Temperature = () => {
 
             setLocalTime(formatedTime);
             setCurrentDay(day);
-        },1000)
-    },[])
+        }, 1000)
+    }, [])
 
     return (
+        <>
+        <title>{description}</title>
+
         <div className='temperature-wrapper pt-6 pb-5 px-4 border rounded-lg flex flex-col justify-between dark:bg-dark-grey shadow-sm dark:shadow-none'>
-            <title>Weather: {description}</title>
             <p className="flex justify-between items-center">
                 <span className="font-medium">{currentDay}</span>
                 <span className="font-medium">{localTime}</span>
@@ -88,6 +90,7 @@ const Temperature = () => {
                 <div>
                     <span>{getIcon()}</span>
                     <p className='pt-2 capitalize text-lg font-medium'>{description}</p>
+
                 </div>
                 <p className='flex items-center gap-2'>
                     <span>Low: <strong>{minTemp}</strong>°C</span>
@@ -95,6 +98,7 @@ const Temperature = () => {
                 </p>
             </div>
         </div>
+        </>
     )
 }
 
