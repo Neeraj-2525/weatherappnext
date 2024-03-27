@@ -24,7 +24,7 @@ const Sunset = () => {
 
 
     return (
-        <div className='sunset pt-6 px-4 h-[12rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-1 md:col-span-1 xl:col-span-1'>
+        <div className='sunset pt-2 px-4 h-[12rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-1 md:col-span-1 xl:col-span-1'>
 
             <div className="top">
                 <h2 className="flex items-center gap-2 font-medium">

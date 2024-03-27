@@ -24,8 +24,6 @@ const Temperature = () => {
         )
 
     const {main: dailyDataMain} = dailyData?.[0];
-    console.log(main?.temp_min, dailyDataMain?.temp_min);
-
     const temp = kelvinToCelcius(main?.temp);
     const minTemp = kelvinToCelcius(main?.temp_min);
     const maxTemp = kelvinToCelcius(dailyDataMain?.temp_max);
@@ -99,4 +97,7 @@ const Temperature = () => {
     )
 }
 
+
+
 export default Temperature
+
