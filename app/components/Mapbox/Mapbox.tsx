@@ -42,7 +42,7 @@ const Mapbox = () => {
   return (
     <div className="flex-1 basis-[50%] border rounded-lg">
       <MapContainer
-        center={coordinates}
+        center={[activeCityCords.lat, activeCityCords.lon]}
         zoom={13}
         scrollWheelZoom={true}
         className="rounded-lg m-4"
@@ -54,7 +54,7 @@ const Mapbox = () => {
         />
 
         <Marker 
-        position={coordinates}
+        position={[activeCityCords.lat, activeCityCords.lon]}
         icon={new Icon({iconUrl: "/pin.png", iconSize: [25, 25], iconAnchor: [12, 12]})}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.

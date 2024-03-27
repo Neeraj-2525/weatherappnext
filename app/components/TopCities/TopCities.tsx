@@ -18,7 +18,7 @@ const TopCities = () => {
                 Top Large Cities
             </h2>
             <div className="flex flex-col gap-4">
-                {defaultStates.slice(1, 5).map((state, index) => {
+                {defaultStates.slice(1, 6).map((state, index) => {
                     return (
                         <div key={index} onClick={() => { getClickedCoords(state.lat, state.lon) }} className="border rounded-lg cursor-pointer dark:hover:bg-accent dark:bg-dark-grey shadow-sm dark:shadow-none">
                             <p className="px-6 py-4">{state.name}</p>
