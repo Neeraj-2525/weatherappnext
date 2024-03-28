@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.8",
+    "@types/lodash": "^4.17.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
