@@ -11,13 +11,9 @@ export async function GET(req: NextRequest) {
 
     const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
-    const res = await fetch(url, {
-      next: { revalidate: 900 },
-    });
+    const res = await axios.get(url);
 
-    const pollData = await res.json();
-
-    return NextResponse.json(pollData);
+    return NextResponse.json(res.data);
   } catch (error) {
     return new Response("Error fetching pollution data", { status: 500 });
   }
