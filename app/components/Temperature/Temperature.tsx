@@ -18,7 +18,7 @@ const Temperature = () => {
 
     // console.log(timezone);
 
-    if (!forecast || !weather || !fiveDayData)
+    if (!forecast || !weather || !fiveDayData || !dailyData)
         return (
             <Skeleton className='pt-6 pb-5 px-4 h-[25rem]' />
         )
