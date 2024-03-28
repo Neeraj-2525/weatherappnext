@@ -5,12 +5,14 @@ import { clearSky, cloudy, drizzleIcon, navigation, rain, snow, thunderstorm } f
 import { kelvinToCelcius, unixToWeekday } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import moment from 'moment';
+import throttle from 'lodash/throttle';
 import React, { useEffect } from 'react'
+
 
 
 const Temperature = () => {
     const { forecast, fiveDayData } = useGlobalContext();
-    const { city, list } = fiveDayData;
+    const { list } = fiveDayData;
     const { main, timezone, name, weather } = forecast;
 
     const dailyData = list;
@@ -56,20 +58,24 @@ const Temperature = () => {
         }
     }
 
+
+    const throttledUpdateTime = throttle(() => {
+        const localMoment = moment().utcOffset(timezone / 60);
+        const formatedTime = localMoment.format("hh:mm A");
+        const day = localMoment.format("dddd");
+      
+        setLocalTime(formatedTime);
+        setCurrentDay(day);
+      }, 1000); // Update every second (adjustable)
+      
     // live time update
     useEffect(() => {
-        // update time every second
-        const interval = setInterval(() => {
-            const localMoment = moment().utcOffset(timezone / 60);
-            // set custom format 12 hour format
-            const formatedTime = localMoment.format("hh:mm A");
-            // day of the week
-            const day = localMoment.format("dddd");
-
-            setLocalTime(formatedTime);
-            setCurrentDay(day);
-        }, 1000)
-    }, [])
+        throttledUpdateTime(); // Call throttled function initially
+        const interval = setInterval(throttledUpdateTime, 1000);
+      
+        return () => clearInterval(interval);
+      }, [timezone]);
+      
 
     return (
         <>
