@@ -17,6 +17,7 @@ const config = {
         "2xl": "1400px",
         "sm-2": "581px",
         "md-2": "1100px",
+        "xm-2": "500px",
       },
     },
     extend: {

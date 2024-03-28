@@ -77,6 +77,7 @@ const SearchDialog = () => {
                                                 className={`py-3 px-2 text-sm rounded-sm cursor-default ${hoveredIndex === index ? 'bg-accent' : ''}`}
                                                 onClick={() => {
                                                     getClickedCoords(item.lat, item.lon);
+                                                    setDialogOpen(!dialogOpen);
                                                 }}
                                             >
                                                 <p className="text">
