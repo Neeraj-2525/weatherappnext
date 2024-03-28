@@ -23,7 +23,7 @@ const Temperature = () => {
             <Skeleton className='pt-6 pb-5 px-4 h-[25rem]' />
         )
 
-    const { main: dailyDataMain } = dailyData?.[0];
+    const { main: dailyDataMain } = dailyData[0];
     const temp = kelvinToCelcius(main?.temp);
     const minTemp = kelvinToCelcius(main?.temp_min);
     const maxTemp = kelvinToCelcius(dailyDataMain?.temp_max);

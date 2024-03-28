@@ -13,9 +13,14 @@ export async function GET(req: NextRequest) {
 
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
-    const res = await axios.get(url);
+    // const res = await axios.get(url);
+    const res = await fetch(url, {
+      next: { revalidate: 900 },
+    });
 
-    return NextResponse.json(res.data);
+    const weatherData = await res.json();
+
+    return NextResponse.json(weatherData);
   } catch (error) {
     return new Response("Error fetching forecast data", { status: 500 });
   }

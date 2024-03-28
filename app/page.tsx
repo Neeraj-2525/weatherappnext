@@ -5,7 +5,7 @@ import DailyFocus from "./components/DailyForecast/DailyForecast";
 import FeelsLike from "./components/FeelsLike/FeelsLike";
 import FiveDayForecast from "./components/FiveDayForecast/FiveDayForecast";
 import Humidity from "./components/Humidity/Humidity";
-import Mapbox from "./components/Mapbox/Mapbox";
+// import Mapbox from "./components/Mapbox/Mapbox";
 import Navbar from "./components/Navbar";
 import Population from "./components/Population/Population";
 import Pressure from "./components/Pressure/Pressure";
@@ -15,9 +15,11 @@ import TopCities from "./components/TopCities/TopCities";
 import UvIndex from "./components/UvIndex/UvIndex";
 import Visibility from "./components/Visibility/Visibility";
 import Wind from "./components/Wind/Wind";
-import { useGlobalContext } from "./context/globalContext";
-// import { useGlobalContext, useGlobalContextUpdate } from "./context/globalContext";
-// import defaultStates from "./utils/defaultCountries";
+import dynamic from 'next/dynamic';
+
+const Mapbox = dynamic(() => import('./components/Mapbox/Mapbox'), {
+  ssr: false, // Disable SSR for this component
+});
 
 export default function Home() {
   return (

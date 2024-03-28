@@ -6,7 +6,8 @@ import "leaflet/dist/leaflet.css";
 import { useGlobalContext } from "@/app/context/globalContext";
 import { Skeleton } from "@/components/ui/skeleton";
 
-//@ts-ignore
+
+// @ts-ignore
 const FlyToActiveCity = ({ activeCityCords }) => {
   const map = useMap();
 
